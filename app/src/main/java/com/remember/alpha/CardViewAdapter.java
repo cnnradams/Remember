@@ -32,6 +32,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         TimeLines timeLine = countries.get(i);
         viewHolder.timelineName.setText(timeLine.name);
+        viewHolder.timelineMembers.setText(timeLine.members);
         if(timeLine.getImageResourceId(mContext) != -1)
             try {
                 viewHolder.timelineImage.setImageResource(timeLine.getImageResourceId(mContext));
@@ -48,12 +49,14 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView timelineName;
+        public TextView timelineMembers;
         public ImageView timelineImage;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             timelineName = (TextView) itemView.findViewById(R.id.timeline_name);
+            timelineMembers = (TextView) itemView.findViewById(R.id.timeline_members);
             timelineImage = (ImageView)itemView.findViewById(R.id.timeline_photo);
         }
 

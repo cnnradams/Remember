@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -41,11 +42,11 @@ public class HomePage extends AppCompatActivity {
         }
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView)findViewById(R.id.list);
-       // if(isTablet(this)) {
+        if(isTablet(this)) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-       // } else {
+        } else {
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
-       // }
+        }
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mAdapter = new CardViewAdapter(TimeLineManager.getInstance().gettimeLines(), R.layout.row_timeline, this);
@@ -80,5 +81,29 @@ public class HomePage extends AppCompatActivity {
         TakePicture takePic = new TakePicture("Remember Picture " +
                 "",HomePage.this);
        takePic.capturePicture();
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if(isTablet(this)) {
+                mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+                mRecyclerView.setAdapter(mAdapter);
+            }
+            else {
+                mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(isTablet(this)) {
+                mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+                mRecyclerView.setAdapter(mAdapter);
+            } else{
+                mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+                mRecyclerView.setAdapter(mAdapter);
+            }
+        }
     }
 }

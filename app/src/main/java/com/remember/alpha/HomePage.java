@@ -1,6 +1,7 @@
 package com.remember.alpha;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
@@ -33,11 +34,14 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.actionBarBackground));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.actionBarText));
         //You can only set status bar color with lollipop and above :(
         if (Build.VERSION.SDK_INT >= 21) {
 
-            getWindow().setStatusBarColor(Color.BLUE);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.statusBarBackground));
 
         }
         setSupportActionBar(toolbar);
@@ -51,6 +55,13 @@ public class HomePage extends AppCompatActivity {
 
         mAdapter = new CardViewAdapter(TimeLineManager.getInstance().gettimeLines(), R.layout.row_timeline, this);
         mRecyclerView.setAdapter(mAdapter);
+        ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Intent intent = new Intent(HomePage.this,MemoriesActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

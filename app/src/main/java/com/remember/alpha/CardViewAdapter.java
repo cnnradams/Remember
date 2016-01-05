@@ -1,23 +1,25 @@
 package com.remember.alpha;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
-    private List<TimeLines> countries;
+    private List<TimeLines> timelines;
     private int rowLayout;
-    private Context mContext;
+    private static Context mContext;
 
-    public CardViewAdapter(List<TimeLines> countries, int rowLayout, Context context) {
-        this.countries = countries;
+    public CardViewAdapter(List<TimeLines> timelines, int rowLayout, Context context) {
+        this.timelines = timelines;
         this.rowLayout = rowLayout;
         this.mContext = context;
     }
@@ -30,7 +32,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        TimeLines timeLine = countries.get(i);
+        TimeLines timeLine = timelines.get(i);
         viewHolder.timelineName.setText(timeLine.name);
         viewHolder.timelineMembers.setText(timeLine.members);
         if(timeLine.getImageResourceId(mContext) != -1)
@@ -44,13 +46,14 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return countries == null ? 0 : countries.size();
+        return timelines == null ? 0 : timelines.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView timelineName;
         public TextView timelineMembers;
         public ImageView timelineImage;
+
 
 
         public ViewHolder(View itemView) {

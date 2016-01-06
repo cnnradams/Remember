@@ -49,7 +49,7 @@ public class HomePage extends AppCompatActivity {
         }
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mAdapter = new CardViewAdapter(TimeLineManager.getInstance().gettimeLines(), R.layout.row_timeline, this);
+        mAdapter = new CardViewAdapter(TimeLineManager.getInstance().gettimeLines(this), R.layout.row_timeline, this);
         mRecyclerView.setAdapter(mAdapter);
 
 

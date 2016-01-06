@@ -18,7 +18,7 @@ public class MemoriesActivity extends AppCompatActivity {
         setContentView(R.layout.memories_activity);
 
         GridView memoriesGrid = (GridView)findViewById(R.id.memories_grid);
-        memoriesGrid.setAdapter(new ImageAdapter(this));
+        memoriesGrid.setAdapter(new ImageAdapter(MemoriesManager.getInstance().getMemories(this),R.layout.memory_item,this));
         memoriesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {

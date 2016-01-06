@@ -9,11 +9,12 @@ import java.util.List;
  * Created by cnnr2 on 2016-01-05.
  */
 public class EventManager {
-    public List<Event> events = new ArrayList<>();
+    public ArrayList<Object> events = new ArrayList<>();
     public TinyDB save;
     public EventManager(Context c) {
 save = new TinyDB(c);
-       
+       events = save.getListObject("events",Event.class);
+        save.putListObject("events",events);
     }
     public void NewEvent(String name) {
 
@@ -28,10 +29,10 @@ save = new TinyDB(c);
 
     }
     public String GetEventMembers() {
-
+return null;
     }
     public String GetEventPhoto() {
-
+        return null;
     }
     private static class Event {
         public final String name;

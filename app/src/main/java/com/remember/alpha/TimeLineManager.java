@@ -1,5 +1,9 @@
 package com.remember.alpha;
 
+import android.os.Environment;
+import android.util.Log;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +25,30 @@ public class TimeLineManager {
         if (timeLines == null) {
             timeLines = new ArrayList<TimeLines>();
 
-            for (String timeLineName : timeLineArray) {
-                TimeLines timeLine = new TimeLines();
-                timeLine.name = timeLineName;
-timeLine.members = timeLineMembers;
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "Remember");
 
-                timeLine.imageName = timeLineName.replaceAll("\\s+","").toLowerCase();
+            if (! mediaStorageDir.exists()){
+                if (! mediaStorageDir.mkdirs()){
+                    Log.d("Remember", "failed to create directory");
+                    return null;
+                }
+            }
+
+            File[] images = mediaStorageDir.listFiles();
+
+            for (File image : images) {
+                TimeLines timeLine = new TimeLines();
+
+                String timeLineName = image.getName();
+                Log.i("ImageLoading", timeLineName);
+                timeLine.name = timeLineName;
+                timeLine.members = timeLineMembers;
+
+                timeLine.imageName = timeLineName;
                 timeLines.add(timeLine);
             }
+
         }
 
         return  timeLines;

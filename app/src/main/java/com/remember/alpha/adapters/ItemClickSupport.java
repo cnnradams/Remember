@@ -1,7 +1,9 @@
-package com.remember.alpha;
+package com.remember.alpha.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.remember.alpha.R;
 
 public class ItemClickSupport {
     private final RecyclerView mRecyclerView;

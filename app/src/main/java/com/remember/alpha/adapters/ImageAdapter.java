@@ -1,13 +1,13 @@
-package com.remember.alpha;
+package com.remember.alpha.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.remember.alpha.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class ImageAdapter extends BaseAdapter {
     private final LayoutInflater mInflater;
     public ImageAdapter(Context c) {
         mInflater = LayoutInflater.from(c);
-        mItems.add(new Container("A Doggie :D",R.drawable.sample_0));
+        mItems.add(new Container("A Doggie :D", R.drawable.sample_0));
         mItems.add(new Container("A Doggie :D",   R.drawable.sample_1));
         mItems.add(new Container("A Doggie :D", R.drawable.sample_1));
         mItems.add(new Container("A Doggie :D",      R.drawable.sample_0));

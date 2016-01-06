@@ -1,4 +1,4 @@
-package com.remember.alpha;
+package com.remember.alpha.adapters;
 
 import android.content.Context;
 

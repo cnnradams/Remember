@@ -10,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,8 +53,9 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 //Goes to Memories Page with knowledge of which card was clicked
+
                 Intent intent = new Intent(HomePage.this,MemoriesActivity.class);
-                intent.putExtra("position",position);
+                intent.putExtra("position", position);
                 startActivity(intent);
             }
         });
@@ -84,9 +86,9 @@ public class HomePage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void takePicture(View view) {
-        TakePicture takePic = new TakePicture("Remember Picture " +
+    /*    TakePicture takePic = new TakePicture("Remember Picture " +
                 "",HomePage.this);
-       takePic.capturePicture();
+       takePic.capturePicture();*/
     }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

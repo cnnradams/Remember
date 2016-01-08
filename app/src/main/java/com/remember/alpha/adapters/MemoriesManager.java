@@ -21,9 +21,9 @@ public class MemoriesManager {
     private List<Memories> memoriesList;
 
     public static MemoriesManager getInstance() {
-        if (mInstance == null) {
+
             mInstance = new MemoriesManager();
-        }
+        
 
         return mInstance;
     }
@@ -32,16 +32,23 @@ public class MemoriesManager {
         if (memoriesList == null) {
             memoriesList = new ArrayList<Memories>();
 
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), "Remember" + folderPath);
+            File mediaRootStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "Remember");
 
+            if (! mediaRootStorageDir.exists()){
+                if (! mediaRootStorageDir.mkdirs()){
+                    Log.d("Remember", "failed to create directory");
+                    return null;
+                }
+            }
+File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_PICTURES), "Remember/" + folderPath);
             if (! mediaStorageDir.exists()){
                 if (! mediaStorageDir.mkdirs()){
                     Log.d("Remember", "failed to create directory");
                     return null;
                 }
             }
-
             File[] images = mediaStorageDir.listFiles();
 
             for (File image : images) {

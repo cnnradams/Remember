@@ -25,7 +25,7 @@ public class EventManager {
         save = new TinyDB(c);
         events = save.getListEvent("events");
         for(Event e : events) {
-            Log.i("EventManager", e.name);
+
         }
         save.putListEvent("events",events);
     }
@@ -52,6 +52,7 @@ if(e.name.equals(id)) {
         events = save.getListEvent("events");
     }
     public ArrayList<Event> GetEvents() {
+        events = save.getListEvent("events");
         return events;
     }
     public void AddMember(String memberName) {
@@ -67,7 +68,7 @@ if(e.name.equals(id)) {
         public String name;
         public ArrayList<String> members;
         //This is the local id, it is also the folder in which it is stored, we parse by this id
-        public String id = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + name;
+        public String id;
         /*    public final int drawableId;*/
         public String getName() {
             return name;
@@ -77,6 +78,7 @@ if(e.name.equals(id)) {
         }
 
         Event(String name,ArrayList<String> members/*,  int drawableId*/) {
+            id = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + name;
             this.members = members;
             this.name = name;
             /*this.drawableId = drawableId;*/

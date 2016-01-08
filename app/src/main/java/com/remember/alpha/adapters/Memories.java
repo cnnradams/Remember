@@ -3,6 +3,7 @@ package com.remember.alpha.adapters;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 
@@ -18,8 +19,10 @@ public String folderPath;
 
     public Uri getImageUri()
     {
+
         return Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES)+ "/Remember/" + folderPath + imageName));
+                Environment.DIRECTORY_PICTURES)+ "/Remember/" + folderPath + "/"  + imageName));
+
     }
 
 }

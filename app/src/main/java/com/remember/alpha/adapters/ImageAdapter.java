@@ -13,23 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {
-    private final List<Container> mItems = new ArrayList<Container>();
+    private List<Memories> mItems = new ArrayList<>();
     private Context mContext;
+    public String eventId;
+    private int rowLayout;
     private final LayoutInflater mInflater;
-    public ImageAdapter(Context c) {
+    public ImageAdapter(List<Memories> timelines,String id, int rowLayout,Context c) {
+        this.eventId = id;
+        this.mItems = timelines;
+        this.rowLayout = rowLayout;
         mInflater = LayoutInflater.from(c);
-        mItems.add(new Container("A Doggie :D", R.drawable.sample_0));
-        mItems.add(new Container("A Doggie :D",   R.drawable.sample_1));
-        mItems.add(new Container("A Doggie :D", R.drawable.sample_1));
-        mItems.add(new Container("A Doggie :D",      R.drawable.sample_0));
-        mItems.add(new Container("A Doggie :D",     R.drawable.sample_1));
-        mItems.add(new Container("A Doggie :D",      R.drawable.sample_0));
-        mItems.add(new Container("A Doggie :D",R.drawable.sample_0));
-        mItems.add(new Container("A Doggie :D",   R.drawable.sample_1));
-        mItems.add(new Container("A Doggie :D", R.drawable.sample_1));
-        mItems.add(new Container("A Doggie :D",      R.drawable.sample_0));
-        mItems.add(new Container("A Doggie :D",     R.drawable.sample_1));
-        mItems.add(new Container("A Doggie :D",      R.drawable.sample_0));
+
+
         mContext = c;
     }
 
@@ -39,13 +34,13 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public Container getItem(int i) {
+    public Memories getItem(int i) {
         return mItems.get(i);
     }
-
+//Not using this but is has to be used
     @Override
     public long getItemId(int i) {
-        return mItems.get(i).drawableId;
+       return i;
     }
 
     // create a new ImageView for each item referenced by the Adapter
@@ -54,28 +49,27 @@ public class ImageAdapter extends BaseAdapter {
         SquareImageView imageView;
         TextView overlayText;
         if (convertView == null) {
-            v = mInflater.inflate(R.layout.memory_item, parent, false);
+            v = mInflater.inflate(rowLayout, parent, false);
             v.setTag(R.id.picture, v.findViewById(R.id.picture));
-            v.setTag(R.id.text, v.findViewById(R.id.text));
+           // v.setTag(R.id.text, v.findViewById(R.id.text));
         }
 
 imageView = (SquareImageView)v.getTag(R.id.picture);
-        overlayText = (TextView)v.getTag(R.id.text);
-        Container item;
-        item = getItem(position);
-        imageView.setImageResource(item.drawableId);
-        overlayText.setText(item.name);
+       // overlayText = (TextView)v.getTag(R.id.text);
+        Memories memories = getItem(position);
+
+        if(memories.image != null) {
+            try {
+                imageView.setImageBitmap(memories.image);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+       // overlayText.setText(memories.name);
         return v;
     }
-    private static class Container {
-        public final String name;
-        public final int drawableId;
 
-        Container(String name, int drawableId) {
-            this.name = name;
-            this.drawableId = drawableId;
-        }
-    }
 
 
 }

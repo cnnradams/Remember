@@ -17,15 +17,14 @@ import android.view.MenuItem;
 import com.remember.alpha.adapters.CardViewAdapter;
 import com.remember.alpha.adapters.ItemClickSupport;
 import com.remember.alpha.adapters.TimeLineManager;
+import com.remember.alpha.adapters.TimeLines;
+
+import java.util.List;
 
 public class HomePage extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private CardViewAdapter mAdapter;
-    public boolean isTablet(Context context) {
-        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
-        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
-        return (xlarge || large);
-    }
+    private List<TimeLines> timeLines;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +48,14 @@ public class HomePage extends AppCompatActivity {
         }
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mAdapter = new CardViewAdapter(TimeLineManager.getInstance().gettimeLines(), R.layout.row_timeline, this);
+
+        mAdapter = new CardViewAdapter( new EventManager(this).GetEvents() , R.layout.row_timeline, this);
         mRecyclerView.setAdapter(mAdapter);
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 Intent intent = new Intent(HomePage.this,MemoriesActivity.class);
+                intent.putExtra("position",position);
                 startActivity(intent);
             }
         });
@@ -112,5 +113,14 @@ public class HomePage extends AppCompatActivity {
                 mRecyclerView.setAdapter(mAdapter);
             }
         }
+    }
+    public void createEvent(View view) {
+Intent intent = new Intent(this,CreateEventActivity.class);
+        startActivity(intent);
+    }
+    public boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
     }
 }

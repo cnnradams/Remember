@@ -66,7 +66,8 @@ public class TakePicture {
         File mediaFile;
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         if (type == MEDIA_TYPE_IMAGE){
-            Log.i("TakePicture","Creating Photo");
+            Log.i("TakePicture",mediaStorageDir.getPath() + File.separator +
+                    TakePicture.picName + timeStamp + ".jpg");
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                     TakePicture.picName + timeStamp + ".jpg");
         } else if(type == MEDIA_TYPE_VIDEO) {

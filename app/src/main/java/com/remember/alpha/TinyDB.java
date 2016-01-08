@@ -307,6 +307,18 @@ public class TinyDB {
     	return objects;
     }
 
+    public ArrayList<EventManager.Event> getListEvent(String key){
+        Gson gson = new Gson();
+
+        ArrayList<String> objStrings = getListString(key);
+        ArrayList<EventManager.Event> objects =  new ArrayList<>();
+
+        for(String jObjString : objStrings){
+            EventManager.Event value  = gson.fromJson(jObjString,  EventManager.Event.class);
+            objects.add(value);
+        }
+        return objects;
+    }
 
 
     public  Object getObject(String key, Class<?> classOfT){
@@ -455,6 +467,15 @@ public class TinyDB {
     		objStrings.add(gson.toJson(obj));
     	}
     	putListString(key, objStrings);
+    }
+    public void putListEvent(String key, ArrayList<EventManager.Event> objArray){
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        ArrayList<String> objStrings = new ArrayList<String>();
+        for(Object obj : objArray){
+            objStrings.add(gson.toJson(obj));
+        }
+        putListString(key, objStrings);
     }
 
     /**

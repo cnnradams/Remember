@@ -16,21 +16,18 @@ import android.view.MenuItem;
 
 import com.remember.alpha.adapters.CardViewAdapter;
 import com.remember.alpha.adapters.ItemClickSupport;
-import com.remember.alpha.adapters.TimeLineManager;
-import com.remember.alpha.adapters.TimeLines;
-
-import java.util.List;
 
 public class HomePage extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private CardViewAdapter mAdapter;
-    private List<TimeLines> timeLines;
     @Override
+@SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //Sets Toolbars Colors
         toolbar.setBackgroundColor(getResources().getColor(R.color.actionBarBackground));
         toolbar.setTitleTextColor(getResources().getColor(R.color.actionBarText));
         //You can only set status bar color with lollipop and above :(
@@ -48,12 +45,13 @@ public class HomePage extends AppCompatActivity {
         }
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-
+        //Sets the Event Adapter to a CardView
         mAdapter = new CardViewAdapter( new EventManager(this).GetEvents() , R.layout.row_timeline, this);
         mRecyclerView.setAdapter(mAdapter);
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                //Goes to Memories Page with knowledge of which card was clicked
                 Intent intent = new Intent(HomePage.this,MemoriesActivity.class);
                 intent.putExtra("position",position);
                 startActivity(intent);

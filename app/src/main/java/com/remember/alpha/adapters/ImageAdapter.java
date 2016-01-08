@@ -15,11 +15,11 @@ import java.util.List;
 public class ImageAdapter extends BaseAdapter {
     private List<Memories> mItems = new ArrayList<>();
     private Context mContext;
-    public String eventId;
+
     private int rowLayout;
     private final LayoutInflater mInflater;
-    public ImageAdapter(List<Memories> timelines,String id, int rowLayout,Context c) {
-        this.eventId = id;
+    public ImageAdapter(List<Memories> timelines, int rowLayout,Context c) {
+
         this.mItems = timelines;
         this.rowLayout = rowLayout;
         mInflater = LayoutInflater.from(c);

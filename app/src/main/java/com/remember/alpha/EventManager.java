@@ -21,6 +21,7 @@ public class EventManager {
 
     public TinyDB save;
     public EventManager(Context c) {
+        //Gets Event Objects from database
         save = new TinyDB(c);
         events = save.getListEvent("events");
         for(Event e : events) {
@@ -36,12 +37,12 @@ public class EventManager {
         events.add(newEvent);
         save.putListEvent("events",events);
     }
-    public void DeleteEvent(String name) {
+    public void DeleteEvent(String id) {
 
         events = save.getListEvent("events");
 
         for(Event e : events) {
-if(e.name.equals(name)) {
+if(e.name.equals(id)) {
     events.remove(e);
 }
 
@@ -65,6 +66,7 @@ if(e.name.equals(name)) {
     public class Event {
         public String name;
         public ArrayList<String> members;
+        //This is the local id, it is also the folder in which it is stored, we parse by this id
         public String id = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + name;
         /*    public final int drawableId;*/
         public String getName() {

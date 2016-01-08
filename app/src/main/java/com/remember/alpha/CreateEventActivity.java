@@ -23,6 +23,7 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_create_event);
     }
+    //When they hit create
 public void finishEventCreation(View view) {
     EditText name = (EditText)findViewById(R.id.editTextName);
     String nameString = name.getText().toString();

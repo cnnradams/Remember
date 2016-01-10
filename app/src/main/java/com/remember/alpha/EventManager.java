@@ -2,6 +2,7 @@ package com.remember.alpha;
 
 import android.content.Context;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.List;
  * Created by cnnr2 on 2016-01-05.
  */
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -42,8 +44,24 @@ public class EventManager {
         events = save.getListEvent("events");
 
         for(Event e : events) {
-if(e.name.equals(id)) {
+
+if(e.id.equals(id)) {
+    Log.i("EventManager","Event Deleted!");
     events.remove(e);
+    save.putListEvent("events",events);
+    File dir = new File(Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES)+ "/Remember/" + id );
+    if (dir.isDirectory())
+    {
+        String[] children = dir.list();
+        for (int i = 0; i < children.length; i++)
+        {
+            new File(dir, children[i]).delete();
+        }
+    }
+
+    dir.delete();
+    return;
 }
 
         }

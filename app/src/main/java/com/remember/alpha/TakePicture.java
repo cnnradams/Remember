@@ -78,6 +78,10 @@ public class TakePicture {
 
         return mediaFile;
     }
+    public void refreshActivity(Context c,Class activity) {
+        Intent intent = new Intent(c,activity);
+        c.startActivity(intent);
+    }
 }
 
 

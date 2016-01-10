@@ -1,6 +1,8 @@
 package com.remember.alpha;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -11,9 +13,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.remember.alpha.adapters.CardViewAdapter;
 import com.remember.alpha.adapters.ItemClickSupport;
@@ -21,6 +26,7 @@ import com.remember.alpha.adapters.ItemClickSupport;
 public class HomePage extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private CardViewAdapter mAdapter;
+    private AlertDialog alert;
     @Override
 @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +44,8 @@ public class HomePage extends AppCompatActivity {
 
         }
         setSupportActionBar(toolbar);
-        mRecyclerView = (RecyclerView)findViewById(R.id.list);
-        if(isTablet(this)) {
+        mRecyclerView = (RecyclerView) findViewById(R.id.list);
+        if (isTablet(this)) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         } else {
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
@@ -47,21 +53,53 @@ public class HomePage extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         //Sets the Event Adapter to a CardView
-        mAdapter = new CardViewAdapter( new EventManager(this).GetEvents() , R.layout.row_timeline, this);
+        mAdapter = new CardViewAdapter(new EventManager(this).GetEvents(), R.layout.row_timeline, this);
         mRecyclerView.setAdapter(mAdapter);
         ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 //Goes to Memories Page with knowledge of which card was clicked
 
-                Intent intent = new Intent(HomePage.this,MemoriesActivity.class);
+                Intent intent = new Intent(HomePage.this, MemoriesActivity.class);
                 intent.putExtra("position", position);
                 startActivity(intent);
             }
         });
+        ItemClickSupport.addTo(mRecyclerView).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
+                //Goes to Memories Page with knowledge of which card was clicked
+final int finalPosition = position;
+                LayoutInflater inflater = getLayoutInflater();
+                View alertLayout = inflater.inflate(R.layout.edit_event, null);
+                alert = new AlertDialog.Builder(HomePage.this).create();
+                alert.setTitle(new EventManager(HomePage.this).GetEvents().get(position).name);
+                alert.setView(alertLayout);
+                alert.setCancelable(false);
+LinearLayout linear = (LinearLayout)alertLayout.findViewById(R.id.deleteEventButton);
+                if(linear != null) {
+                    linear.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
 
+
+                           deleteEvent(new EventManager(HomePage.this).GetEvents().get(finalPosition).id);
+                            Intent intent = new Intent(HomePage.this,HomePage.class);
+                            startActivity(intent);
+                            alert.dismiss();
+
+                        }
+                    });
+                }
+
+                alert.show();
+                return true;
+            }
+
+
+        });
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,6 +156,9 @@ public class HomePage extends AppCompatActivity {
 Intent intent = new Intent(this,CreateEventActivity.class);
         startActivity(intent);
     }
+public void deleteEvent(String id) {
+    new EventManager(this).DeleteEvent(id);
+}
     public boolean isTablet(Context context) {
         boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
         boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);

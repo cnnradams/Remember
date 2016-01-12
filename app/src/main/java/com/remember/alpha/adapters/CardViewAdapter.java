@@ -1,6 +1,9 @@
-package com.remember.alpha;
+package com.remember.alpha.adapters;
 
 import android.content.Context;
+
+
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,17 +14,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.remember.alpha.EventManager;
+import com.remember.alpha.R;
+
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
-    private List<TimeLines> countries;
+    private ArrayList<EventManager.Event> timelines;
     private int rowLayout;
-    private Context mContext;
+    private static Context mContext;
 
-    public CardViewAdapter(List<TimeLines> countries, int rowLayout, Context context) {
-        this.countries = countries;
+    public CardViewAdapter(ArrayList<EventManager.Event> timelines, int rowLayout, Context context) {
+        this.timelines = timelines;
         this.rowLayout = rowLayout;
         this.mContext = context;
     }
@@ -34,21 +41,21 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        TimeLines timeLine = countries.get(i);
+        EventManager.Event timeLine = timelines.get(i);
         viewHolder.timelineName.setText(timeLine.name);
-        viewHolder.timelineMembers.setText(timeLine.members);
-        if(timeLine.image != null) {
+      //  viewHolder.timelineMembers.setText(timeLine.members[);
+       /* if(timeLine.image != null) {
             try {
                 viewHolder.timelineImage.setImageBitmap(timeLine.image);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     @Override
     public int getItemCount() {
-        return countries == null ? 0 : countries.size();
+        return timelines == null ? 0 : timelines.size();
     }
 
 
@@ -57,6 +64,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         public TextView timelineName;
         public TextView timelineMembers;
         public ImageView timelineImage;
+
 
 
         public ViewHolder(View itemView) {

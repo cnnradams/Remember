@@ -1,4 +1,4 @@
-package com.remember.alpha;
+package com.remember.alpha.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,54 +12,63 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimeLineManager {
-    private static String[] timeLineArray = {"placeholder","placeholder","placeholder","placeholder","placeholder","placeholder","placeholder","placeholder","placeholder"};
-    private static String timeLineMembers = "John, Jill, and Placeholder";
-    private static TimeLineManager mInstance;
-    private List<TimeLines> timeLines;
+/**
+ * Created by cnnr2 on 2016-01-06.
+ */
+public class MemoriesManager {
+    private static String[] memoryArray = {"placeholder","placeholder","placeholder","placeholder","placeholder","placeholder","placeholder","placeholder","placeholder"};
+    private static MemoriesManager mInstance;
+    private List<Memories> memoriesList;
 
-    public static TimeLineManager getInstance() {
-        if (mInstance == null) {
-            mInstance = new TimeLineManager();
-        }
+    public static MemoriesManager getInstance() {
+
+            mInstance = new MemoriesManager();
+        
 
         return mInstance;
     }
 
-    public List<TimeLines> gettimeLines(Context mContext) {
-        if (timeLines == null) {
-            timeLines = new ArrayList<TimeLines>();
+    public List<Memories> getMemories(Context mContext, String folderPath) {
+        if (memoriesList == null) {
+            memoriesList = new ArrayList<Memories>();
 
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+            File mediaRootStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES), "Remember");
 
+            if (! mediaRootStorageDir.exists()){
+                if (! mediaRootStorageDir.mkdirs()){
+                    Log.d("Remember", "failed to create directory");
+                    return null;
+                }
+            }
+File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_PICTURES), "Remember/" + folderPath);
             if (! mediaStorageDir.exists()){
                 if (! mediaStorageDir.mkdirs()){
                     Log.d("Remember", "failed to create directory");
                     return null;
                 }
             }
-
             File[] images = mediaStorageDir.listFiles();
 
             for (File image : images) {
-                TimeLines timeLine = new TimeLines();
+                Memories memory = new Memories();
 
-                String timeLineName = image.getName();
-                timeLine.name = timeLineName;
-                timeLine.members = timeLineMembers;
-                timeLine.imageName = timeLineName;
+                String memoryName = image.getName();
+                memory.name = memoryName;
+                memory.folderPath = folderPath;
+                memory.imageName = memoryName;
                 try {
-                    timeLine.image = decodeUri(mContext, timeLine.getImageUri(), 100);
+                    memory.image = decodeUri(mContext, memory.getImageUri(), 100);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                timeLines.add(timeLine);
+                memoriesList.add(memory);
             }
 
         }
 
-        return  timeLines;
+        return memoriesList;
     }
 
     /*
@@ -88,5 +97,4 @@ public class TimeLineManager {
         o2.inSampleSize = scale;
         return BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri), null, o2);
     }
-
 }

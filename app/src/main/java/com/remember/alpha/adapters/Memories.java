@@ -1,28 +1,28 @@
-package com.remember.alpha;
+package com.remember.alpha.adapters;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
-public class TimeLines {
+/**
+ * Created by cnnr2 on 2016-01-06.
+ */
+public class Memories {
     public String name;
-    public String members;
     public String imageName;
     public Bitmap image;
-
+public String folderPath;
 
 
     public Uri getImageUri()
     {
-        return Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES)+ "/Remember/" + imageName));
-    }
 
+        return Uri.fromFile(new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES)+ "/Remember/" + folderPath + "/"  + imageName));
+
+    }
 
 }

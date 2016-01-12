@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="statusBarBackground">#ca481c</color>
+    <color name="actionBarBackground">#e35227</color>
+    <color name="actionBarText">#faf9f7</color>
+    <color name="actionButtonBackground">  #4a453b</color>
+    <color name="actionButtonText">#faf9f7</color>
+    <color name="cardViewBackground"> #f1eee7</color>
+    <color name="cardViewText">#4a453b</color>
 </resources>

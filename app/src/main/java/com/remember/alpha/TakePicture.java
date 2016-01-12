@@ -19,10 +19,12 @@ public class TakePicture {
     public static String picName;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private Uri fileUri;
+    private static String folderPath;
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
     Activity launchActivity;
-    public TakePicture(String picName, Activity launchActivity) {
+    public TakePicture(String picName, String folderPath, Activity launchActivity) {
+        this.folderPath = folderPath;
         this.picName = picName;
         this.launchActivity = launchActivity;
     }
@@ -46,19 +48,16 @@ public class TakePicture {
     private static File getOutputMediaFile(int type){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "Remember");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
+     File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "Remember/" + TakePicture.folderPath);
         if (! mediaStorageDir.exists()){
             if (! mediaStorageDir.mkdirs()){
                 Log.d("Remember", "failed to create directory");
                 return null;
             }
         }
+        // Create the storage directory if it does not exist
+
 
         // Create a media file name
      /*   String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());*/
@@ -78,6 +77,10 @@ public class TakePicture {
         }
 
         return mediaFile;
+    }
+    public void refreshActivity(Context c,Class activity) {
+        Intent intent = new Intent(c,activity);
+        c.startActivity(intent);
     }
 }
 

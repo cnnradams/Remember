@@ -37,6 +37,13 @@
             android:label="@string/title_activity_create_event"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity
+            android:name=".ImageDetailActivity"
+            android:configChanges="orientation|screenSize" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MemoriesActivity" />
+        </activity>
     </application>
 
 </manifest>

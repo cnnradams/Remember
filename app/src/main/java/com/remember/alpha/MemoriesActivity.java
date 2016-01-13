@@ -22,24 +22,26 @@ public class MemoriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.memories_activity);
         Intent intent = getIntent();
-      extras = intent.getExtras();
-        GridView memoriesGrid = (GridView)findViewById(R.id.memories_grid);
+        extras = intent.getExtras();
+        GridView memoriesGrid = (GridView) findViewById(R.id.memories_grid);
         //Setting  the Memories into a grid look using ImageAdapter
-events = new EventManager(this).GetEvents();
+        events = new EventManager(this).GetEvents();
 
-        String id =  events.get(extras.getInt("position", -1)).id ;
+        String id = events.get(extras.getInt("position", -1)).id;
 
-        memoriesGrid.setAdapter(new ImageAdapter(MemoriesManager.getInstance().getMemories(this,  id), R.layout.memory_item, this));
+        memoriesGrid.setAdapter(new ImageAdapter(MemoriesManager.getInstance(id).getMemories(this, id), R.layout.memory_item, this));
         memoriesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(MemoriesActivity.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MemoriesActivity.this, ImageDetailActivity.class);
+                intent.putExtra("position", position);
+                intent.putExtra("id", events.get(extras.getInt("position", -1)).id);
+                startActivity(intent);
             }
         });
     }
 public void takePicture(View view ) {
-    TakePicture takethePicture = new TakePicture("Photo",events.get(extras.getInt("position", -1)).id ,this);
+    TakePicture takethePicture = new TakePicture("Photo",events.get(extras.getInt("position", -1)).id ,MemoriesActivity.this);
     takethePicture.capturePicture();
 }
 }

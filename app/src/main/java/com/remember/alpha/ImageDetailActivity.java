@@ -39,7 +39,7 @@ public class ImageDetailActivity extends FragmentActivity {
         String eventID = intent.getExtras().getString("id");
         int startingPosition = intent.getExtras().getInt("position");
 
-        List<Memories> imageBitmaps = MemoriesManager.getInstance().getMemories(this, eventID);
+        List<Memories> imageBitmaps = MemoriesManager.getInstance(eventID).getMemories(this, eventID);
 
         mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), imageBitmaps.size(),eventID);
         mPager = (ViewPager) findViewById(R.id.pager);

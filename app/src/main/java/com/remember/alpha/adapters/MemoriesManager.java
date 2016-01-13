@@ -10,6 +10,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,17 +18,28 @@ import java.util.List;
  */
 public class MemoriesManager {
     private static String[] memoryArray = {"placeholder","placeholder","placeholder","placeholder","placeholder","placeholder","placeholder","placeholder","placeholder"};
-    private static MemoriesManager mInstance;
+
     private List<Memories> memoriesList;
-
-    public static MemoriesManager getInstance() {
-
-            mInstance = new MemoriesManager();
-        
-
-        return mInstance;
+private int photosCount;
+    public static ArrayList<Instances> currentInstances = new ArrayList<>();
+    private File[] firstTimeImages;
+    public static MemoriesManager getInstance(String eventId) {
+        for(Instances instance : currentInstances) {
+            if(instance.id.equals(eventId)) {
+                return instance.thisInstance;
+            }
+        }
+        Instances newInstance = new Instances(eventId);
+        currentInstances.add(newInstance);
+        return newInstance.thisInstance;
     }
-
+public static class Instances {
+    public MemoriesManager thisInstance = new MemoriesManager();
+    public String id;
+        public Instances(String id) {
+            this.id = id;
+        }
+    }
     public List<Memories> getMemories(Context mContext, String folderPath) {
         if (memoriesList == null) {
             memoriesList = new ArrayList<Memories>();
@@ -49,9 +61,9 @@ File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                     return null;
                 }
             }
-            File[] images = mediaStorageDir.listFiles();
-
-            for (File image : images) {
+            firstTimeImages = mediaStorageDir.listFiles();
+photosCount = firstTimeImages.length;
+            for (File image : firstTimeImages) {
                 Memories memory = new Memories();
 
                 String memoryName = image.getName();
@@ -66,6 +78,35 @@ File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 memoriesList.add(memory);
             }
 
+        } else {
+         //   photosCount = firstTimeImages.length;
+            Log.e("photos",photosCount + "");
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "Remember/" + folderPath);
+            File[] images = mediaStorageDir.listFiles();
+Log.e("images",images.length + "");
+            if(images.length > photosCount) {
+
+                for(int i = 0; i < (images.length - photosCount); i++) {
+                    ArrayList<File> myImages = new ArrayList<>(Arrays.asList(images));
+Log.e("here","herte");
+
+                    File image = myImages.get(images.length - i - 1);
+                    Memories memory = new Memories();
+
+                    String memoryName = image.getName();
+                    memory.name = memoryName;
+                    memory.folderPath = folderPath;
+                    memory.imageName = memoryName;
+                    try {
+                        memory.image = decodeUri(mContext, memory.getImageUri(), 100);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    memoriesList.add(memory);
+                }
+                photosCount = images.length;
+            }
         }
 
         return memoriesList;

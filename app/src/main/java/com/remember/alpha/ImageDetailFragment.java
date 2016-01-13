@@ -61,7 +61,7 @@ public class ImageDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         Bitmap img = null;
-        List<Memories> imageBitmaps = MemoriesManager.getInstance().getMemories(getContext(), eventID);
+        List<Memories> imageBitmaps = MemoriesManager.getInstance(eventID).getMemories(getContext(), eventID);
         img = imageBitmaps.get(mImageNum).image;
 
 

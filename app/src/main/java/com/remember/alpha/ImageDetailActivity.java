@@ -65,7 +65,7 @@ public class ImageDetailActivity extends FragmentActivity {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            ((ViewPager)container).removeView((View)object);
+           // ((ViewPager)container).removeView((View)object);
         }
 
 

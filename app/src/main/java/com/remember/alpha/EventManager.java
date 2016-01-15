@@ -14,6 +14,7 @@ import java.util.List;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,7 @@ if(e.id.equals(id)) {
 
         }
     }
+
     public void DeleteMember(String memberName, String eventName) {
         events = save.getListEvent("events");
     }

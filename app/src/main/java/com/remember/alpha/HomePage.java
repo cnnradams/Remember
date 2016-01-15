@@ -1,12 +1,20 @@
 package com.remember.alpha;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,14 +27,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.remember.alpha.adapters.CardViewAdapter;
 import com.remember.alpha.adapters.ItemClickSupport;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HomePage extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private CardViewAdapter mAdapter;
     private AlertDialog alert;
+
     @Override
 @SuppressWarnings("deprecation")
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +57,41 @@ public class HomePage extends AppCompatActivity {
             getWindow().setStatusBarColor(getResources().getColor(R.color.statusBarBackground));
 
         }
-        setSupportActionBar(toolbar);
+
+// Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION )
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        10);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+        LocationManager mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Location location =  mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+
+
+
+       setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         if (isTablet(this)) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -54,8 +102,8 @@ public class HomePage extends AppCompatActivity {
 
         //Sets the Event Adapter to a CardView
         mAdapter = new CardViewAdapter(new EventManager(this).GetEvents(), R.layout.row_timeline, this);
-        mRecyclerView.setAdapter(mAdapter);
-        ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+       mRecyclerView.setAdapter(mAdapter);
+       ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 //Goes to Memories Page with knowledge of which card was clicked
@@ -96,10 +144,9 @@ LinearLayout linear = (LinearLayout)alertLayout.findViewById(R.id.deleteEventBut
             }
 
 
-        });
+        });// Here, thisActivity is the current activity*/
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,6 +155,7 @@ LinearLayout linear = (LinearLayout)alertLayout.findViewById(R.id.deleteEventBut
         getMenuInflater().inflate(R.menu.menu_home_page, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -164,4 +212,7 @@ public void deleteEvent(String id) {
         boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
         return (xlarge || large);
     }
+
+
+
 }

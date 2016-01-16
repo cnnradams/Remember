@@ -48,13 +48,13 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         EventManager.Event timeLine = timelines.get(i);
         viewHolder.timelineName.setText(timeLine.name);
-        JsonReader jsonReader = new JsonReader();
+
 
         if(timeLine.latitude != null) {
             try {
-               String locationString =  jsonReader.getJsonData("city","http://nominatim.openstreetmap.org/reverse?format=json&lat=" + timeLine.latitude + "&lon=" + timeLine.longitude)
-                       + ", " + jsonReader.getJsonData("state","http://nominatim.openstreetmap.org/reverse?format=json&lat=" + timeLine.latitude + "&lon=" + timeLine.longitude);
-                viewHolder.timelineLocation.setText(locationString);
+
+
+                viewHolder.timelineLocation.setText(timeLine.myLocationName);
             } catch(Exception e) {
                 e.printStackTrace();
             }

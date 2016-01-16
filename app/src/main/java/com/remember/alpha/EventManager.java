@@ -96,6 +96,7 @@ if(e.id.equals(id)) {
         public String id;
       public Double longitude;
         public Double latitude;
+        public String myLocationName;
         /*    public final int drawableId;*/
         public String getName() {
             return name;
@@ -110,6 +111,9 @@ if(e.id.equals(id)) {
             this.latitude = latitude;
             this.members = members;
             this.name = name;
+            JsonReader jsonReader = new JsonReader();
+            this.myLocationName = jsonReader.getJsonData("city","http://nominatim.openstreetmap.org/reverse?format=json&lat=" + latitude + "&lon=" + longitude)
+                    + ", " + jsonReader.getJsonData("state","http://nominatim.openstreetmap.org/reverse?format=json&lat=" + latitude + "&lon=" + longitude);
             /*this.drawableId = drawableId;*/
         }
     }

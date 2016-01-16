@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.remember.alpha.EventManager;
+import com.remember.alpha.JsonReader;
 import com.remember.alpha.R;
 
 import java.io.File;
@@ -47,18 +48,45 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         EventManager.Event timeLine = timelines.get(i);
         viewHolder.timelineName.setText(timeLine.name);
-         /*   File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), "Remember/" + timeLine.id);
-            File[] images = mediaStorageDir.listFiles();
+        JsonReader jsonReader = new JsonReader();
 
+        if(timeLine.latitude != null) {
             try {
-                viewHolder.timelineImage.setImageBitmap(decodeUri(mContext, Uri.fromFile(images[(int) (Math.random() * (images.length))]), 100));
-            }catch(java.io.FileNotFoundException e) {
+               String locationString =  jsonReader.getJsonData("city","http://nominatim.openstreetmap.org/reverse?format=json&lat=" + timeLine.latitude + "&lon=" + timeLine.longitude)
+                       + ", " + jsonReader.getJsonData("state","http://nominatim.openstreetmap.org/reverse?format=json&lat=" + timeLine.latitude + "&lon=" + timeLine.longitude);
+                viewHolder.timelineLocation.setText(locationString);
+            } catch(Exception e) {
                 e.printStackTrace();
-            }*/
+            }
+        }
 
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "Remember/" + timeLine.id);
+        File[] images = mediaStorageDir.listFiles();
+        if (images != null) {
+            try {
+                int image1 =(int) (Math.random() * (images.length));
+                int image2 = (int) (Math.random() * (images.length));
+                int image3 = (int) (Math.random() * (images.length));
+                if(images.length > 2) {
+
+                    while(image2 == image1 || image2 == image3) {
+                        image2 = (int) (Math.random() * (images.length));
+                    }
+                    while(image3 == image2 || image3 == image1) {
+                        image3 = (int) (Math.random() * (images.length));
+                    }
+                }
+                viewHolder.timelineImage.setImageBitmap(decodeUri(mContext, Uri.fromFile( images[image1]), 100));
+                viewHolder.timelineImage2.setImageBitmap(decodeUri(mContext, Uri.fromFile(images[image2]), 100));
+                viewHolder.timelineImage3.setImageBitmap(decodeUri(mContext, Uri.fromFile(images[image3]), 100));
+            } catch (java.io.FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
-
     @Override
     public int getItemCount() {
         return timelines == null ? 0 : timelines.size();
@@ -69,7 +97,10 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView timelineName;
         public TextView timelineMembers;
-        public ImageView timelineImage;
+        public TextView timelineLocation;
+       public SquareImageView timelineImage;
+        public SquareImageView timelineImage2;
+        public SquareImageView timelineImage3;
         public String id;
 
 
@@ -78,11 +109,15 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
           // this.id = id;
             timelineName = (TextView) itemView.findViewById(R.id.timeline_name);
             timelineMembers = (TextView) itemView.findViewById(R.id.timeline_members);
-            timelineImage = (ImageView)itemView.findViewById(R.id.timeline_photo);
+            timelineLocation = (TextView) itemView.findViewById(R.id.timeline_location);
+            timelineImage = (SquareImageView)itemView.findViewById(R.id.timeline_photo);
+            timelineImage2 = (SquareImageView)itemView.findViewById(R.id.timeline_photo2);
+            timelineImage3 = (SquareImageView)itemView.findViewById(R.id.timeline_photo3);
+
         }
 
     }
-   /* private static Bitmap decodeUri(Context c, Uri uri, final int requiredSize)
+    private static Bitmap decodeUri(Context c, Uri uri, final int requiredSize)
             throws FileNotFoundException {
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
@@ -103,5 +138,5 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = scale;
         return BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri), null, o2);
-    }*/
+    }
 }

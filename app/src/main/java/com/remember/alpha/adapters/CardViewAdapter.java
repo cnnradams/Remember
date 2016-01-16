@@ -69,7 +69,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
                 int image1 =(int) (Math.random() * (images.length));
                 int image2 = (int) (Math.random() * (images.length));
                 int image3 = (int) (Math.random() * (images.length));
-                if(images.length > 2) {
+                if(ima) {
 
                     while(image2 == image1 || image2 == image3) {
                         image2 = (int) (Math.random() * (images.length));
@@ -78,9 +78,12 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
                         image3 = (int) (Math.random() * (images.length));
                     }
                 }
-                viewHolder.timelineImage.setImageBitmap(decodeUri(mContext, Uri.fromFile( images[image1]), 100));
-                viewHolder.timelineImage2.setImageBitmap(decodeUri(mContext, Uri.fromFile(images[image2]), 100));
-                viewHolder.timelineImage3.setImageBitmap(decodeUri(mContext, Uri.fromFile(images[image3]), 100));
+
+                if(images.length > 0) {
+                    viewHolder.timelineImage.setImageBitmap(decodeUri(mContext, Uri.fromFile( images[image1]), 100));
+                    viewHolder.timelineImage2.setImageBitmap(decodeUri(mContext, Uri.fromFile(images[image2]), 100));
+                    viewHolder.timelineImage3.setImageBitmap(decodeUri(mContext, Uri.fromFile(images[image3]), 100));
+                }
             } catch (java.io.FileNotFoundException e) {
                 e.printStackTrace();
             }

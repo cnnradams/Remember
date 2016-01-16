@@ -69,7 +69,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
                 int image1 =(int) (Math.random() * (images.length));
                 int image2 = (int) (Math.random() * (images.length));
                 int image3 = (int) (Math.random() * (images.length));
-                if(ima) {
+                if(images.length > 2) {
 
                     while(image2 == image1 || image2 == image3) {
                         image2 = (int) (Math.random() * (images.length));

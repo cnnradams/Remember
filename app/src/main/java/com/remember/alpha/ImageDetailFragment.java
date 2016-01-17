@@ -60,12 +60,13 @@ public class ImageDetailFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Bitmap img = null;
+        Memories memories = MemoriesManager.getInstance(eventID).getMemories(getContext(), eventID).get(mImageNum);
+/*
         List<Memories> imageBitmaps = MemoriesManager.getInstance(eventID).getMemories(getContext(), eventID);
-        img = imageBitmaps.get(mImageNum).image;
-
-
-        mImageView.setImageBitmap(img); // Load image into ImageView
+        final Bitmap img = imageBitmaps.get(mImageNum).highResImage;
+        mImageView.setImageBitmap(img);*/ // Load image into ImageView
+        //MemoriesManager.getInstance(eventID).setImageViewToMemory(getContext(), eventID, mImageView, mImageNum);
+        MemoriesManager.getInstance(memories.folderPath).loadMemoryImage(getContext(), memories.folderPath,mImageNum,mImageView);
     }
 
 

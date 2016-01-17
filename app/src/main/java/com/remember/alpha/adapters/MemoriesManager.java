@@ -1,5 +1,25 @@
 package com.remember.alpha.adapters;
 
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Rect;
+import android.media.Image;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.widget.ImageView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,6 +60,11 @@ public static class Instances {
             this.id = id;
         }
     }
+
+    /*
+     * getMemories() will no longer
+     * load the images.
+     */
     public List<Memories> getMemories(Context mContext, String folderPath) {
         if (memoriesList == null) {
             memoriesList = new ArrayList<Memories>();
@@ -70,11 +95,21 @@ photosCount = firstTimeImages.length;
                 memory.name = memoryName;
                 memory.folderPath = folderPath;
                 memory.imageName = memoryName;
+
+                /*Uri imageUri = memory.getImageUri();
+
                 try {
-                    memory.image = decodeUri(mContext, memory.getImageUri(), 100);
+                    Bitmap highResImage = decodeUri(mContext, imageUri, 500);
+                    Bitmap iconImage = decodeUri(mContext, imageUri, 50);
+
+                    memory.iconImage = iconImage;
+                    memory.highResImage = highResImage;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+
                 memoriesList.add(memory);
             }
 
@@ -98,11 +133,21 @@ Log.e("here","herte");
                     memory.name = memoryName;
                     memory.folderPath = folderPath;
                     memory.imageName = memoryName;
+
+                    /*Uri imageUri = memory.getImageUri();
+
                     try {
-                        memory.image = decodeUri(mContext, memory.getImageUri(), 100);
+                        Bitmap highResImage = decodeUri(mContext, imageUri, 500);
+                        Bitmap iconImage = decodeUri(mContext, imageUri, 50);
+
+                        memory.iconImage = iconImage;
+                        memory.highResImage = highResImage;
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
-                    }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }*/
+
                     memoriesList.add(memory);
                 }
                 photosCount = images.length;
@@ -111,6 +156,73 @@ Log.e("here","herte");
 
         return memoriesList;
     }
+
+
+    public void loadMemoryIconImage(final Context mContext,final String folderPath, final int imageIndex, final SquareImageView imgView){
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                Memories memory = getMemories(mContext,folderPath).get(imageIndex);
+
+                if(memory.iconImage == null){
+                    Bitmap bm = null;
+                    try {
+                        bm = decodeUri(mContext, memory.getImageUri(), 50);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    memoriesList.get(imageIndex).iconImage = bm;
+                }
+
+                memory = memoriesList.get(imageIndex);
+
+                final Memories finalMemory = memory;
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    public void run() {
+                        imgView.setImageBitmap(finalMemory.iconImage);
+                    }
+                });
+
+            }
+        }); thread.start();
+    }
+
+    public void loadMemoryImage(final Context mContext,final String folderPath, final int imageIndex, final ImageView imgView){
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                Memories memory = getMemories(mContext,folderPath).get(imageIndex);
+
+                if(memory.highResImage == null){
+                    Bitmap bm = null;
+                    try {
+                        bm = decodeUri(mContext, memory.getImageUri(), 500);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    memoriesList.get(imageIndex).highResImage = bm;
+                }
+
+                memory = memoriesList.get(imageIndex);
+
+                final Memories finalMemory = memory;
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    public void run() {
+                        imgView.setImageBitmap(finalMemory.highResImage);
+                    }
+                });
+
+            }
+        }); thread.start();
+    }
+
+
 
     /*
     * Used to avoid java.lang.OutOfMemoryError from loading

@@ -13,8 +13,9 @@ import java.io.File;
 public class Memories {
     public String name;
     public String imageName;
-    public Bitmap image;
-public String folderPath;
+    public Bitmap iconImage;
+    public Bitmap highResImage;
+    public String folderPath;
 
 
     public Uri getImageUri()

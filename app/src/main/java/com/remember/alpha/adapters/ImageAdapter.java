@@ -58,13 +58,16 @@ imageView = (SquareImageView)v.getTag(R.id.picture);
        // overlayText = (TextView)v.getTag(R.id.text);
         Memories memories = getItem(position);
 
-        if(memories.image != null) {
+
+        /*if(memories.highResImage != null) {
             try {
-                imageView.setImageBitmap(memories.image);
+                imageView.setImageBitmap(memories.highResImage);
             } catch(Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
+
+        MemoriesManager.getInstance(memories.folderPath).loadMemoryIconImage(mContext, memories.folderPath,position,imageView);
 
        // overlayText.setText(memories.name);
         return v;

@@ -58,6 +58,7 @@ imageView = (SquareImageView)v.getTag(R.id.picture);
        // overlayText = (TextView)v.getTag(R.id.text);
         Memories memories = getItem(position);
 
+
         /*if(memories.highResImage != null) {
             try {
                 imageView.setImageBitmap(memories.highResImage);

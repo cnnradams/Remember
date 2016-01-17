@@ -15,7 +15,7 @@ public class Memories {
     public String imageName;
     public Bitmap iconImage;
     public Bitmap highResImage;
-public String folderPath;
+    public String folderPath;
 
 
     public Uri getImageUri()

@@ -1,5 +1,6 @@
 package com.remember.alpha.adapters;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,6 +20,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,6 +109,7 @@ photosCount = firstTimeImages.length;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }*/
+
                 memoriesList.add(memory);
             }
 
@@ -136,6 +147,7 @@ Log.e("here","herte");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }*/
+
                     memoriesList.add(memory);
                 }
                 photosCount = images.length;
@@ -209,6 +221,7 @@ Log.e("here","herte");
             }
         }); thread.start();
     }
+
 
 
     /*

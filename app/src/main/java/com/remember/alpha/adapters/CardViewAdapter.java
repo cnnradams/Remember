@@ -45,7 +45,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Log.e("here", i + "");
+
         EventManager.Event timeLine = timelines.get(i);
         viewHolder.timelineName.setText(timeLine.name);
         viewHolder.timelineLocation.setText(timeLine.myLocationName);
@@ -56,7 +56,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         viewHolder.timelineImage2.setImageBitmap(bitmapArrayList.get(1));
         if(bitmapArrayList.get(2) != null)
         viewHolder.timelineImage3.setImageBitmap(bitmapArrayList.get(2));
-        Log.e("here","after :D");
+
         //  viewHolder.timelineMembers.setText(timeLine.members[);
        /* if(timeLine.image != null) {
             try {

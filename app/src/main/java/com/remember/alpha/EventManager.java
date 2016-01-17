@@ -34,7 +34,7 @@ public class EventManager {
         //Gets Event Objects from database
         save = new TinyDB(c);
         events = save.getListEvent("events");
-        Log.e("here", "stayin alive");
+
         for (Event e : events) {
 
         }
@@ -131,9 +131,9 @@ public class EventManager {
             if (images != null) {
 
                 if (image1 == image2 || image1 == image3 || image2 == image3 || imageBitmap1 == null || imageBitmap2 == null || imageBitmap3 == null) {
-                    Log.e("imagesssss", images.length + "");
+
                     try {
-                        Log.e("eventmanager", "here");
+
                          image1 = (int) (Math.random() * (images.length));
                          image2 = (int) (Math.random() * (images.length));
                          image3 = (int) (Math.random() * (images.length));
@@ -148,12 +148,10 @@ public class EventManager {
                         }
 
                         if (images.length > 0) {
-                            Log.e("saved", "saved");
+
                             imageBitmap1 = decodeUri(newContext, Uri.fromFile(images[image1]), 100);
                             imageBitmap2 = decodeUri(newContext, Uri.fromFile(images[image2]), 100);
                             imageBitmap3 = decodeUri(newContext, Uri.fromFile(images[image3]), 100);
-
-                            Log.e("saved", "saved2");
                         }
                     } catch (java.io.FileNotFoundException e) {
                         e.printStackTrace();

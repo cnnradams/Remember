@@ -115,16 +115,15 @@ photosCount = firstTimeImages.length;
 
         } else {
          //   photosCount = firstTimeImages.length;
-            Log.e("photos",photosCount + "");
+
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES), "Remember/" + folderPath);
             File[] images = mediaStorageDir.listFiles();
-Log.e("images",images.length + "");
+
             if(images.length > photosCount) {
 
                 for(int i = 0; i < (images.length - photosCount); i++) {
                     ArrayList<File> myImages = new ArrayList<>(Arrays.asList(images));
-Log.e("here","herte");
 
                     File image = myImages.get(images.length - i - 1);
                     Memories memory = new Memories();

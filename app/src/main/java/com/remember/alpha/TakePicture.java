@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -38,7 +39,9 @@ public class TakePicture {
 
         // start the image capture Intent
         launchActivity.startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+
     }
+
     /** Create a file Uri for saving an image or video */
     private static Uri getOutputMediaFileUri(int type){
         return Uri.fromFile(getOutputMediaFile(type));
@@ -78,6 +81,7 @@ public class TakePicture {
 
         return mediaFile;
     }
+
     public void refreshActivity(Context c,Class activity) {
         Intent intent = new Intent(c,activity);
         c.startActivity(intent);

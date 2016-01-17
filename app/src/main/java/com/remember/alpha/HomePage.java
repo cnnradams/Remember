@@ -71,7 +71,10 @@ public class HomePage extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         //Sets the Event Adapter to a CardView
-        mAdapter = new CardViewAdapter(new EventManager(this).GetEvents(), R.layout.row_timeline, this);
+        EventManager eventManager = new EventManager(this);
+
+        mAdapter = new CardViewAdapter(eventManager.GetEvents(), R.layout.row_timeline, this);
+
        mRecyclerView.setAdapter(mAdapter);
        ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override

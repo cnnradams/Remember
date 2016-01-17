@@ -35,7 +35,6 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         this.timelines = timelines;
         this.rowLayout = rowLayout;
         this.mContext = context;
-
     }
 
     @Override
@@ -46,55 +45,29 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        Log.e("here", i + "");
         EventManager.Event timeLine = timelines.get(i);
         viewHolder.timelineName.setText(timeLine.name);
-
-
-        if(timeLine.latitude != null) {
+        viewHolder.timelineLocation.setText(timeLine.myLocationName);
+        ArrayList<Bitmap> bitmapArrayList = timeLine.SetImages(mContext);
+        viewHolder.timelineImage.setImageBitmap(bitmapArrayList.get(0));
+        viewHolder.timelineImage2.setImageBitmap(bitmapArrayList.get(1));
+        viewHolder.timelineImage3.setImageBitmap(bitmapArrayList.get(2));
+        Log.e("here","after :D");
+        //  viewHolder.timelineMembers.setText(timeLine.members[);
+       /* if(timeLine.image != null) {
             try {
-
-
-                viewHolder.timelineLocation.setText(timeLine.myLocationName);
-            } catch(Exception e) {
+                viewHolder.timelineImage.setImageBitmap(timeLine.image);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "Remember/" + timeLine.id);
-        File[] images = mediaStorageDir.listFiles();
-        if (images != null) {
-            try {
-                int image1 =(int) (Math.random() * (images.length));
-                int image2 = (int) (Math.random() * (images.length));
-                int image3 = (int) (Math.random() * (images.length));
-                if(images.length > 2) {
-
-                    while(image2 == image1 || image2 == image3) {
-                        image2 = (int) (Math.random() * (images.length));
-                    }
-                    while(image3 == image2 || image3 == image1) {
-                        image3 = (int) (Math.random() * (images.length));
-                    }
-                }
-
-                if(images.length > 0) {
-                    viewHolder.timelineImage.setImageBitmap(decodeUri(mContext, Uri.fromFile( images[image1]), 100));
-                    viewHolder.timelineImage2.setImageBitmap(decodeUri(mContext, Uri.fromFile(images[image2]), 100));
-                    viewHolder.timelineImage3.setImageBitmap(decodeUri(mContext, Uri.fromFile(images[image3]), 100));
-                }
-            } catch (java.io.FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-        }
+        }*/
     }
+
     @Override
     public int getItemCount() {
         return timelines == null ? 0 : timelines.size();
     }
-
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -109,7 +82,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-          // this.id = id;
+
             timelineName = (TextView) itemView.findViewById(R.id.timeline_name);
             timelineMembers = (TextView) itemView.findViewById(R.id.timeline_members);
             timelineLocation = (TextView) itemView.findViewById(R.id.timeline_location);
@@ -120,26 +93,5 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         }
 
     }
-    private static Bitmap decodeUri(Context c, Uri uri, final int requiredSize)
-            throws FileNotFoundException {
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri), null, o);
 
-        int width_tmp = o.outWidth
-                , height_tmp = o.outHeight;
-        int scale = 1;
-
-        while(true) {
-            if(width_tmp / 2 < requiredSize || height_tmp / 2 < requiredSize)
-                break;
-            width_tmp /= 2;
-            height_tmp /= 2;
-            scale *= 2;
-        }
-
-        BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = scale;
-        return BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri), null, o2);
-    }
 }

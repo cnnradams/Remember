@@ -7,7 +7,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.remember.alpha.EventManager;
+import com.remember.alpha.JsonReader;
 import com.remember.alpha.R;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +45,19 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        Log.e("here", i + "");
         EventManager.Event timeLine = timelines.get(i);
         viewHolder.timelineName.setText(timeLine.name);
-      //  viewHolder.timelineMembers.setText(timeLine.members[);
+        viewHolder.timelineLocation.setText(timeLine.myLocationName);
+        ArrayList<Bitmap> bitmapArrayList = timeLine.SetImages(mContext);
+        if(bitmapArrayList.get(0) != null)
+        viewHolder.timelineImage.setImageBitmap(bitmapArrayList.get(0));
+        if(bitmapArrayList.get(1) != null)
+        viewHolder.timelineImage2.setImageBitmap(bitmapArrayList.get(1));
+        if(bitmapArrayList.get(2) != null)
+        viewHolder.timelineImage3.setImageBitmap(bitmapArrayList.get(2));
+        Log.e("here","after :D");
+        //  viewHolder.timelineMembers.setText(timeLine.members[);
        /* if(timeLine.image != null) {
             try {
                 viewHolder.timelineImage.setImageBitmap(timeLine.image);
@@ -59,20 +73,28 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     }
 
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView timelineName;
         public TextView timelineMembers;
-        public ImageView timelineImage;
-
+        public TextView timelineLocation;
+       public SquareImageView timelineImage;
+        public SquareImageView timelineImage2;
+        public SquareImageView timelineImage3;
+        public String id;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
+
             timelineName = (TextView) itemView.findViewById(R.id.timeline_name);
             timelineMembers = (TextView) itemView.findViewById(R.id.timeline_members);
-            timelineImage = (ImageView)itemView.findViewById(R.id.timeline_photo);
+            timelineLocation = (TextView) itemView.findViewById(R.id.timeline_location);
+            timelineImage = (SquareImageView)itemView.findViewById(R.id.timeline_photo);
+            timelineImage2 = (SquareImageView)itemView.findViewById(R.id.timeline_photo2);
+            timelineImage3 = (SquareImageView)itemView.findViewById(R.id.timeline_photo3);
+
         }
 
     }
+
 }

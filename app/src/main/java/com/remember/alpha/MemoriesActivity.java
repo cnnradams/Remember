@@ -40,8 +40,18 @@ public class MemoriesActivity extends AppCompatActivity {
             }
         });
     }
-public void takePicture(View view ) {
+public void takePicture(View view) {
     TakePicture takethePicture = new TakePicture("Photo",events.get(extras.getInt("position", -1)).id ,MemoriesActivity.this);
     takethePicture.capturePicture();
+
+
 }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK) {
+finish();
+            startActivity(getIntent());
+        }
+    }
 }

@@ -9,34 +9,78 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        >
-        <ImageView
-            android:id="@+id/timeline_photo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:contentDescription="@string/action_settings"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp" />
+        android:layout_height="115dp"
 
+        >
+
+        <com.remember.alpha.adapters.SquareImageView
+            android:id="@+id/timeline_photo"
+            android:layout_width="115dp"
+            android:layout_height="125dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/action_settings"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/black"
+            />
+        <com.remember.alpha.adapters.SquareImageView
+            android:id="@+id/timeline_photo2"
+            android:layout_width="115dp"
+            android:layout_height="125dp"
+            android:src="@drawable/black"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/action_settings"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        <com.remember.alpha.adapters.SquareImageView
+            android:id="@+id/timeline_photo3"
+            android:layout_width="115dp"
+            android:layout_height="125dp"
+            android:src="@drawable/black"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/action_settings"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
         <TextView
             android:id="@+id/timeline_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/timeline_photo"
-            android:layout_alignParentTop="true"
-            android:textSize="30sp"/>
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp"
+            android:text="No name?"
+            android:layout_gravity="center_vertical"
+
+
+            android:textColor="@android:color/white"
+            android:background="#55000000"
+            android:layout_alignBottom="@+id/timeline_photo"
+            android:layout_toRightOf="@+id/timeline_members"
+            android:layout_toLeftOf="@+id/timeline_photo2"
+            android:layout_toStartOf="@+id/timeline_photo2" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/timeline_members"
-            android:layout_toRightOf="@+id/timeline_photo"
             android:layout_below="@+id/timeline_name"
             />
-
+        <TextView
+            android:layout_alignBottom="@+id/timeline_photo"
+            android:id="@+id/timeline_location"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#55000000"
+            android:textColor="@android:color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp"
+            android:text="No Location?"
+            android:gravity="right"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/timeline_name"
+            android:layout_toEndOf="@+id/timeline_name" />
 
 
     </RelativeLayout>

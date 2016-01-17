@@ -187,6 +187,11 @@ public void deleteEvent(String id) {
         return (xlarge || large);
     }
 
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
+        finish();
+        startActivity(getIntent());
+    }
 
 }

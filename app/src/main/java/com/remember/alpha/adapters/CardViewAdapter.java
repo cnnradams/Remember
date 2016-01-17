@@ -50,8 +50,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         viewHolder.timelineName.setText(timeLine.name);
         viewHolder.timelineLocation.setText(timeLine.myLocationName);
         ArrayList<Bitmap> bitmapArrayList = timeLine.SetImages(mContext);
+        if(bitmapArrayList.get(0) != null)
         viewHolder.timelineImage.setImageBitmap(bitmapArrayList.get(0));
+        if(bitmapArrayList.get(1) != null)
         viewHolder.timelineImage2.setImageBitmap(bitmapArrayList.get(1));
+        if(bitmapArrayList.get(2) != null)
         viewHolder.timelineImage3.setImageBitmap(bitmapArrayList.get(2));
         Log.e("here","after :D");
         //  viewHolder.timelineMembers.setText(timeLine.members[);

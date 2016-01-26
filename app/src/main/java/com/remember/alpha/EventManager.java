@@ -1,6 +1,8 @@
 package com.remember.alpha;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 
 import java.io.File;
@@ -14,11 +16,16 @@ import java.util.List;
  * Created by cnnr2 on 2016-01-05.
  */
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -43,10 +50,27 @@ public class EventManager {
     }
 
     // members will need to be replaced with an arraylist of user objects that we will(hopefully) make.
-    public void NewEvent(String name, ArrayList<String> members) {
+    public void NewEvent(String name, ArrayList<String> members, boolean eventPrivacy) {
         GetLocation location = new GetLocation(context);
+        Event newEvent;
+        try {
+            double longitude = location.getLocation().getLongitude();
+            double latitude = location.getLocation().getLatitude();
+            newEvent = new Event(name, members, longitude,latitude);
 
-        Event newEvent = new Event(name, members, location.getLocation().getLongitude(), location.getLocation().getLatitude());
+        } catch(java.lang.NullPointerException e) {
+            e.printStackTrace();
+            newEvent = new Event(name, members, 0.0,0.0);
+        }
+
+        Intent intent = new Intent(context,UploadEventService.class);
+        intent.putExtra("name", newEvent.name);
+        intent.putExtra("latitude",newEvent.latitude);
+        intent.putExtra("longitude",newEvent.longitude);
+        intent.putExtra("privacy",eventPrivacy);//TODO
+        intent.putExtra("locationName",newEvent.myLocationName);
+                context.sendBroadcast(intent);
+
 
         events = save.getListEvent("events");
         events.add(newEvent);
@@ -200,5 +224,11 @@ return photos;
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = scale;
         return BitmapFactory.decodeStream(c.getContentResolver().openInputStream(uri), null, o2);
+    }
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

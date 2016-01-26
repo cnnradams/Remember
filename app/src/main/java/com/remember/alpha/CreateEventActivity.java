@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -32,10 +33,11 @@ public void finishEventCreation(View view) {
     Switch privacy = (Switch)findViewById(R.id.privacySwitch);
     ArrayList<String> members = new ArrayList<String>();
     members.add("Set this up with Members");
-
-    EventManager eventManager = new EventManager(this);
-    eventManager.NewEvent(nameString, members);
     boolean isPublic = privacy.isChecked();
+    Log.e("public","" + isPublic);
+    EventManager eventManager = new EventManager(this);
+    eventManager.NewEvent(nameString, members,isPublic);
+
     Toast.makeText(this,"Event Made!",Toast.LENGTH_LONG ).show();
     Intent intent = new Intent(this,HomePage.class) ;
     startActivity(intent);

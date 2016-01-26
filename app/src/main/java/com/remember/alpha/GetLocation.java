@@ -10,6 +10,8 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import java.util.List;
+
 public class GetLocation {
     private Activity c;
     public GetLocation(Activity c) {
@@ -42,10 +44,22 @@ this.c = c;
                 // result of the request.
             }
         }
-        LocationManager mLocationManager = (LocationManager) c.getSystemService(c.LOCATION_SERVICE);
+        LocationManager mLocationManager;
+        mLocationManager = (LocationManager)c.getApplicationContext().getSystemService(c.LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
 
-
-        return   mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     }
 
 }
